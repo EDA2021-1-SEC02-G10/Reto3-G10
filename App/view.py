@@ -36,8 +36,14 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("1- Inicializar Analizador")
+    print("2- Cargar información")
+    print("3- Cuantas reproducciones se tienen en el sistema")
+    print("4- Encontrar música para festejar")
+    print("5- Encontrar música para estudiar")
+    print("6- Estudiar los géneros musicales")
+    print("7- Indicar el género musical más escuhcado en el tiempo")
+    print("0- Salir")
 
 catalog = None
 
@@ -48,10 +54,36 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
+        print("Inicializando ....")
+        cont = controller.init()
 
     elif int(inputs[0]) == 2:
+        print("\nCargando información ....")
+        controller.loadData(cont, music)
+    
+    elif int(inputs[0]) == 3:
+        caracteristica = input("Qué caracteristica quiere buscar?")
+        minimo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
+        maximo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
+
+    elif int(inputs[0]) == 4:
+        minimo_energy = input("Qué valor minimo quiere de la caractersitica energy?")
+        maximo_energy = input("Qué valor maximo quiere de la caracteristica energy?")
+        minimo_dance = input("Qué valor minimo quiere de la caractersitica danceability")
+        maximo_dance = input("Qué valor maximo quiere de la caractersitica danceability")
+    
+    elif int(inputs[0]) == 5:
+        minimo_instrumental = input("Qué valor minimo quiere de la caractersitica instrumentalness?")
+        maximo_instrumental = input("Qué valor maximo quiere de la caractersitica instrumentalness?")
+        minimo_tempo = input("Qué valor minimo quiere de la caractersitica tempo?")
+        maximo_tempo = input("Qué valor maximo quiere de la caractersitica tempo?")
+    
+    elif int(inputs[0]) == 6:
         pass
+
+    elif int(inputs[0]) == 7:
+        minimo_dia = input("Qué valor minimo quiere de la hora de dia?")
+        maximo_dia = input("Qué valor maximo quiere de la hora de dia?")
 
     else:
         sys.exit(0)

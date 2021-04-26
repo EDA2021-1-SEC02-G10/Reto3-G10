@@ -39,12 +39,63 @@ los mismos.
 
 # Construccion de modelos
 
+def newAnalyzer():
+    """ Inicializa el analizador
+
+    Crea una lista vacia para guardar todos los crimenes
+    Se crean indices (Maps) por los siguientes criterios:
+    -Fechas
+
+    Retorna el analizador inicializado.
+    """
+    analyzer = {'music_info': None,
+                'req1': None,
+                'instrumentalness': None,
+                'tempo': None,
+                'energy': None
+                }
+    
+    analyzer['music_info'] = lt.newList('SINGLE_LINKED', compareIds)
+    analyzer['req1'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+
+    analyzer['instrument'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+
+    analyzer['danceability'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+
+    analyzer['tempo'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+    
+    analyzer['energy'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+    return analyzer
+
 # Funciones para agregar informacion al catalogo
 
-# Funciones para creacion de datos
+def addCrime(analyzer, music):
+    """
+    """
+    lt.addLast(analyzer['music_info'], music)
+    
+    return analyzer
 
-# Funciones de consulta
+#req 1
 
-# Funciones utilizadas para comparar elementos dentro de una lista
+def addautor()
 
-# Funciones de ordenamiento
+# ==============================
+# Funciones de Comparacion
+# ==============================
+
+def compareIds(id1, id2):
+    """
+    Compara dos crimenes
+    """
+    if (id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
