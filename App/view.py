@@ -59,7 +59,7 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("\nCargando información ....")
-        controller.loadData(cont, music)
+        controller.loadData(cont, "context_content_features-small")
     
     elif int(inputs[0]) == 3:
         caracteristica = input("Qué caracteristica quiere buscar?")
