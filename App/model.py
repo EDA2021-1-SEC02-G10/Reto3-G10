@@ -51,10 +51,10 @@ def newAnalyzer():
     """
     analyzer = {'Caracteristica': None}
     analyzer["Caracteristica"] = m.newMap(numelements=30,
-                                            prime=109345121,
-                                            maptype='PROBING',
-                                            loadfactor=0.5,
-                                            comparefunction=compareDates)
+                                        prime=109345121,
+                                        maptype='PROBING',
+                                        loadfactor=0.5,
+                                        comparefunction=compareDates)
     
     return analyzer
 
@@ -63,64 +63,190 @@ def newAnalyzer():
 def actualizar_Caracteristica(analyzer):
 
     Arbol1 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol2 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol3 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol4 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol5 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol6 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol7 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol8 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
     Arbol9 = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+                                      comparefunction=compareCaracteristicas)
 
-    m.put(analyzer["Caracteristica"], "instrumetalness", Arbol1)
+    m.put(analyzer["Caracteristica"], "instrumentalness", Arbol1)
     m.put(analyzer["Caracteristica"], "liveness", Arbol2)
     m.put(analyzer["Caracteristica"], "speechiness", Arbol3)
     m.put(analyzer["Caracteristica"], "danceability", Arbol4)
-    m.put(analyzer["Caracteristica"], "Valence", Arbol5)
-    m.put(analyzer["Caracteristica"], "Loudness", Arbol6)
-    m.put(analyzer["Caracteristica"], "Tempo", Arbol7)
-    m.put(analyzer["Caracteristica"], "Acousticness", Arbol8)
-    m.put(analyzer["Caracteristica"], "Energy", Arbol9)
+    m.put(analyzer["Caracteristica"], "valence", Arbol5)
+    m.put(analyzer["Caracteristica"], "loudness", Arbol6)
+    m.put(analyzer["Caracteristica"], "tempo", Arbol7)
+    m.put(analyzer["Caracteristica"], "acousticness", Arbol8)
+    m.put(analyzer["Caracteristica"], "energy", Arbol9)
 
 def AppCaracteristica(analyzer, cancion):
 
     tabla = analyzer["Caracteristica"]
-    Instrumentalness = cancion["Instrumentalness"]
+    instrumentalness = cancion["instrumentalness"]
     liveness = cancion["liveness"]
     speechiness = cancion["speechiness"]
     danceability = cancion["danceability"]
-    Valence = cancion["Valence"]
-    Loudness = cancion["Loudness"]
-    Tempo = cancion["Tempo"]
-    Acousticness = cancion["Acousticness"]
-    Energy = cancion["Energy"]
+    valence = cancion["valence"]
+    loudness = cancion["loudness"]
+    tempo = cancion["tempo"]
+    acousticness = cancion["acousticness"]
+    energy = cancion["energy"]
 
-    Entry1 = m.get(tabla, "Instrumentalness")
+    #arbol1
+    Entry1 = m.get(tabla, "instrumentalness")
     Arbol1 = me.getValue(Entry1)
 
-    contiene = om.contains(Arbol1, Instrumentalness)
+    contiene = om.contains(Arbol1, instrumentalness)
     if contiene:
-        Entry1 = om.get(Arbol1, Instrumentalness)
+        Entry1 = om.get(Arbol1, instrumentalness)
         Lista = me.getValue(Entry1)
         lt.addLast(Lista, cancion)
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
 
-    om.put(Arbol1, Instrumentalness, Lista)
-    return Arbol
-    
+    om.put(Arbol1, instrumentalness, Lista)
+
+    #arbol2
+    Entry2 = m.get(tabla, "liveness")
+    Arbol2 = me.getValue(Entry2)
+
+    contiene = om.contains(Arbol2, liveness)
+    if contiene:
+        Entry2 = om.get(Arbol2, liveness)
+        Lista = me.getValue(Entry2)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol2, liveness, Lista)
+
+    #arbol3
+    Entry3 = m.get(tabla, "speechiness")
+    Arbol3 = me.getValue(Entry3)
+
+    contiene = om.contains(Arbol3, speechiness)
+    if contiene:
+        Entry3 = om.get(Arbol3, speechiness)
+        Lista = me.getValue(Entry3)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol3, speechiness, Lista)
+
+    #arbol4
+    Entry4 = m.get(tabla, "danceability")
+    Arbol4 = me.getValue(Entry4)
+
+    contiene = om.contains(Arbol4, danceability)
+    if contiene:
+        Entry4 = om.get(Arbol4, danceability)
+        Lista = me.getValue(Entry4)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol4, danceability, Lista)
+
+    #arbol5
+    Entry5 = m.get(tabla, "valence")
+    Arbol5 = me.getValue(Entry5)
+
+    contiene = om.contains(Arbol5, valence)
+    if contiene:
+        Entry5 = om.get(Arbol5, valence)
+        Lista = me.getValue(Entry5)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol5, valence, Lista)
+
+    #arbol6
+    Entry6 = m.get(tabla, "loudness")
+    Arbol6 = me.getValue(Entry6)
+
+    contiene = om.contains(Arbol6, loudness)
+    if contiene:
+        Entry6 = om.get(Arbol6, loudness)
+        Lista = me.getValue(Entry6)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol6, loudness, Lista)
+
+    #arbol7
+    Entry7 = m.get(tabla, "tempo")
+    Arbol7 = me.getValue(Entry7)
+
+    contiene = om.contains(Arbol7, tempo)
+    if contiene:
+        Entry7 = om.get(Arbol7, tempo)
+        Lista = me.getValue(Entry7)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol7, tempo, Lista)
+
+    #arbol8
+    Entry8 = m.get(tabla, "acousticness")
+    Arbol8 = me.getValue(Entry8)
+
+    contiene = om.contains(Arbol8, acousticness)
+    if contiene:
+        Entry8 = om.get(Arbol8, acousticness)
+        Lista = me.getValue(Entry8)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol8, acousticness, Lista)
+
+    #arbol9
+    Entry9 = m.get(tabla, "energy")
+    Arbol9 = me.getValue(Entry9)
+
+    contiene = om.contains(Arbol9, energy)
+    if contiene:
+        Entry9 = om.get(Arbol9, energy)
+        Lista = me.getValue(Entry9)
+        lt.addLast(Lista, cancion)
+    else:
+        Lista = lt.newList()
+        lt.addLast(Lista, cancion)
+
+    om.put(Arbol9, energy, Lista)
 
 #req 1
+
+def clasificar_caracteristicas(caracteristica, minimo, maximo):
+    Caracteristica = m.get(analyzer["Caracteristica"], caracteristica)
+    arbol = m.valueSet(Caracteristica)
+    
+
+
 
 #def addautor()
 # ==============================
@@ -142,6 +268,16 @@ def compareDates(date1, date2):
     """
     Compara dos fechas
     """
+    Key = me.getKey(date2)
+    if (date1 == Key):
+        return 0
+    elif (date1 > Key):
+        return 1
+    else:
+        return -1
+
+def compareCaracteristicas(date1:float, date2:float):
+    
     if (date1 == date2):
         return 0
     elif (date1 > date2):
