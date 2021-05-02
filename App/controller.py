@@ -37,7 +37,7 @@ def init():
     """
     # catalog es utilizado para interactuar con el modelo
     analyzer = model.newAnalyzer()
-    actualizar_Caracteristica(analyzer)
+    model.actualizar_Caracteristica(analyzer)
     return analyzer
 
 # Funciones para la carga de datos
@@ -46,11 +46,23 @@ def loadData(analyzer, music):
     """
     Carga los datos de los archivos CSV en el modelo
     """
-    Eventos_file = cf.data_dir + ("context_content_features-small.csv")
-    input_file = csv.DictReader(open(context_content_features-small.csv, encoding="utf-8"),
+    Eventos_file1 = cf.data_dir + ("context_content_features-small.csv")
+    Eventos_file2 = cf.data_dir + ("user_track_hashtag_timestamp-small.csv")
+    Eventos_file3 = cf.data_dir + ("sentiment_values.csv")
+
+
+    input_file1 = csv.DictReader(open(Eventos_file1, encoding="utf-8"),
                                 delimiter=",")
-    for cancion in input_file:
+    input_file2 = csv.DictReader(open(Eventos_file2, encoding="utf-8"),
+                                delimiter=",")
+    input_file3 = csv.DictReader(open(Eventos_file3, encoding="utf-8"),
+                                delimiter=",")
+    for cancion in input_file1:
         model.AppCaracteristica(analyzer, cancion)
+    """for cancion in input_file2:
+        #model.AppCaracteristica(analyzer, cancion)
+    for cancion in input_file3:
+        #model.AppCaracteristica(analyzer, cancion)"""
         
     return analyzer
 
