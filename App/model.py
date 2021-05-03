@@ -241,9 +241,11 @@ def AppCaracteristica(analyzer, cancion):
 
 #req 1
 
-def clasificar_caracteristicas(caracteristica, minimo, maximo):
+def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     Caracteristica = m.get(analyzer["Caracteristica"], caracteristica)
-    arbol = m.valueSet(Caracteristica)
+    arbol = me.getValue(Caracteristica)
+    rango = om.values(arbol, minimo, maximo)
+    return print(rango)
     
 
 

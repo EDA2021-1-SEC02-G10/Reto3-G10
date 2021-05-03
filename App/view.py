@@ -59,12 +59,13 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("\nCargando información ....")
-        controller.loadData(cont, "context_content_features-small")
+        analyzer = controller.loadData(cont, "context_content_features-small")
     
     elif int(inputs[0]) == 3:
         caracteristica = input("Qué caracteristica quiere buscar?")
         minimo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
         maximo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
+        controller.clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo)
 
     elif int(inputs[0]) == 4:
         minimo_energy = input("Qué valor minimo quiere de la caractersitica energy?")

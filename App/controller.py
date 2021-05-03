@@ -69,4 +69,7 @@ def loadData(analyzer, music):
 
 # Funciones de ordenamiento
 
+def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
+    return model.clasificar_caracteristicas (analyzer, caracteristica, minimo, maximo)
+
 # Funciones de consulta sobre el catálogo
