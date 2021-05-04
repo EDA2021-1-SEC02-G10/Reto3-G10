@@ -65,13 +65,15 @@ while True:
         caracteristica = input("Qué caracteristica quiere buscar?")
         minimo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
         maximo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
-        controller.clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo)
+        rta = controller.clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo)
+        print(rta)
 
     elif int(inputs[0]) == 4:
         minimo_energy = input("Qué valor minimo quiere de la caractersitica energy?")
         maximo_energy = input("Qué valor maximo quiere de la caracteristica energy?")
         minimo_dance = input("Qué valor minimo quiere de la caractersitica danceability")
         maximo_dance = input("Qué valor maximo quiere de la caractersitica danceability")
+        rta = encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance)
     
     elif int(inputs[0]) == 5:
         minimo_instrumental = input("Qué valor minimo quiere de la caractersitica instrumentalness?")

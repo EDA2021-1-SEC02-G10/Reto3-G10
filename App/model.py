@@ -30,6 +30,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
 from DISClib.ADT import map as m
+from DISClib.DataStructures import listiterator as it 
 import datetime
 assert config
 
@@ -245,12 +246,47 @@ def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     Caracteristica = m.get(analyzer["Caracteristica"], caracteristica)
     arbol = me.getValue(Caracteristica)
     rango = om.values(arbol, minimo, maximo)
-    return print(rango)
+    iterador = it.newIterator(rango)
+    total_de_eventos = 0
+    tabla_de_hash = m.newMap()
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        tamanio = lt.size(elemento)
+        total_de_eventos += tamanio
+        iterador1 = it.newIterator(elemento)
+        while it.hasNext(iterador1):
+            elemento1 = it.next(iterador1)
+            if not m.contains(tabla_de_hash, elemento1["artist_id"]):
+                m.put(tabla_de_hash, elemento1["artist_id"], 1)
+    rta = lt.newList()
+    artistas = m.size(tabla_de_hash)
+    lt.addLast(rta, total_de_eventos)
+    lt.addLast(rta, artistas)
+    return rta
     
+#req 2
+def encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance):
+    energy = m.get(analyzer["Caracteristica"], "energy")
+    danceability = m.get(analyzer["Caracteristica"], "danceability")
+    rango_energy = om.values(energy, minimo_energy, maximo_energy)
+    rango_danceability = om.values(danceability, minimo_dance, maximo_dance)
+    iterador_energy = it.newIterator(rango_energy)
+    interador_danceability = it.newIterator(rango_energy)
+    tabla_de_hash = 
+    numero_pistas = 0
+    while it.hasNext(iterador_energy) and it.hasNext(iterador_danceability):
+        elemento_energy = it.next(iterador_energy)
+        elemento_iterador_energy = it.next(iterador_iterador_energy)
+        iterador_energy_1 = it.newIterator(elemento_energy)
+        iterador_energy_2 = it.newIterator(elemento_energy)
+        while it.hasNext(iterador_energy_1) and it.hasNext(iterador_danceability_2): #preguntar cupi
+            elemento_energy_1 = it.next(iterador_energy_1)
+            elemento_iterador_energy_2 = it.next(iterador_iterador_energy_2)
+            m.put(tabla_de_hash, elemento_energy_1["reack_id"], 1)
+            m.put(tabla_de_hash, elemento_iterador_energy_2["track_id"], 1)
+            
 
 
-
-#def addautor()
 # ==============================
 # Funciones de Comparacion
 # ==============================

@@ -72,4 +72,6 @@ def loadData(analyzer, music):
 def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     return model.clasificar_caracteristicas (analyzer, caracteristica, minimo, maximo)
 
+def encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance):
+
 # Funciones de consulta sobre el catálogo
