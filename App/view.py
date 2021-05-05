@@ -71,9 +71,11 @@ while True:
     elif int(inputs[0]) == 4:
         minimo_energy = input("Qué valor minimo quiere de la caractersitica energy?")
         maximo_energy = input("Qué valor maximo quiere de la caracteristica energy?")
-        minimo_dance = input("Qué valor minimo quiere de la caractersitica danceability")
-        maximo_dance = input("Qué valor maximo quiere de la caractersitica danceability")
-        rta = encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance)
+        minimo_dance = input("Qué valor minimo quiere de la caractersitica danceability?")
+        maximo_dance = input("Qué valor maximo quiere de la caractersitica danceability?")
+        rta = controller.encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance)
+        lista = controller.encontrar_5_videos(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance)
+        print(lista)
     
     elif int(inputs[0]) == 5:
         minimo_instrumental = input("Qué valor minimo quiere de la caractersitica instrumentalness?")
