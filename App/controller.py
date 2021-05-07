@@ -38,6 +38,7 @@ def init():
     # catalog es utilizado para interactuar con el modelo
     analyzer = model.newAnalyzer()
     model.actualizar_Caracteristica(analyzer)
+    model.crearHastGenre(analyzer)
     return analyzer
 
 # Funciones para la carga de datos
@@ -78,7 +79,7 @@ def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,m
     return model.encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
 
 #req 4
-def encontrar_generos_musicales(analyzer,genero):
-    return model.encontrar_generos_musicales(analyzer,genero)
+def encontrar_generos_musicales(analyzer,genero,booleano,nombre,valor_minimo,valor_maximo):
+    return model.encontrar_generos_musicales(analyzer,genero,booleano,nombre,valor_minimo,valor_maximo)
 
 # Funciones de consulta sobre el catálogo

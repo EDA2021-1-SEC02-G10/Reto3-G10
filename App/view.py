@@ -64,78 +64,85 @@ while True:
     
     elif int(inputs[0]) == 3:
         caracteristica = input("Qué caracteristica quiere buscar?")
-        minimo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
-        maximo = input("Cúal es el valor mínimo de la caracteristica de contenido?")
+        minimo = float(input("Cúal es el valor mínimo de la caracteristica de contenido?"))
+        maximo = float(input("Cúal es el valor mínimo de la caracteristica de contenido?"))
         rta = controller.clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo)
         print(rta)
 
     elif int(inputs[0]) == 4:
-        minimo_energy = input("Qué valor minimo quiere de la caractersitica energy?")
-        maximo_energy = input("Qué valor maximo quiere de la caracteristica energy?")
-        minimo_dance = input("Qué valor minimo quiere de la caractersitica danceability?")
-        maximo_dance = input("Qué valor maximo quiere de la caractersitica danceability?")
+        minimo_energy = float(input("Qué valor minimo quiere de la caractersitica energy?"))
+        maximo_energy = float(input("Qué valor maximo quiere de la caracteristica energy?"))
+        minimo_dance = float(input("Qué valor minimo quiere de la caractersitica danceability?"))
+        maximo_dance = float(input("Qué valor maximo quiere de la caractersitica danceability?"))
         variable = "energy"
         variable_2 = "danceability"
         rta = controller.encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
         print(rta)
     
     elif int(inputs[0]) == 5:
-        minimo_instrumental = input("Qué valor minimo quiere de la caractersitica instrumentalness?")
-        maximo_instrumental = input("Qué valor maximo quiere de la caractersitica instrumentalness?")
-        minimo_tempo = input("Qué valor minimo quiere de la caractersitica tempo?")
-        maximo_tempo = input("Qué valor maximo quiere de la caractersitica tempo?")
+        minimo_instrumental = float(input("Qué valor minimo quiere de la caractersitica instrumentalness?"))
+        maximo_instrumental = float(input("Qué valor maximo quiere de la caractersitica instrumentalness?"))
+        minimo_tempo = float(input("Qué valor minimo quiere de la caractersitica tempo?"))
+        maximo_tempo = float(input("Qué valor maximo quiere de la caractersitica tempo?"))
         variable = "instrumentalness"
         variable_2 = "tempo"
         rta = controller.encontrar_pistas_unicas(analyzer,minimo_instrumental, maximo_instrumental,minimo_tempo,maximo_tempo,variable,variable_2)
         print(rta)
     elif int(inputs[0]) == 6:
-        #booleano = input("quiere agregar un genero?:")
-        #nombre = input("nombre unico para el nuevo genero musical?")
-        #valor_minimo = input("Qué valor minimo del tempo del nuevo genero musical?")
-        #valor_maximo = input("Qué valor maximo del tempo del nuevo genero musical?")
+        booleano = float(input("quiere agregar un genero?:"))
+        if booleano == 1 :
+                nombre = input("nombre unico para el nuevo genero musical?")
+                valor_minimo = float(input("Qué valor minimo del tempo del nuevo genero musical?"))
+                valor_maximo = float(input("Qué valor maximo del tempo del nuevo genero musical?"))
+                print(nombre)
+                rta = controller.encontrar_generos_musicales(analyzer,nombre,booleano,nombre,valor_minimo,valor_maximo)
+                print(rta)
+        nombre ="x"
+        valor_minimo = 0
+        valor_maximo = 1
         genero_1 = "Reggae"
         print("Reggae:")
-        rta_Reggae = controller.encontrar_generos_musicales(analyzer,genero_1)
+        rta_Reggae = controller.encontrar_generos_musicales(analyzer,genero_1,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Reggae)
 
         genero_2 = "Down_tempo"
         print("Down_tempo:")
-        rta_Down_tempo = controller.encontrar_generos_musicales(analyzer,genero_2)
+        rta_Down_tempo = controller.encontrar_generos_musicales(analyzer,genero_2,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Down_tempo)
 
         genero_3 = "Chill_out"
         print("Chill_out:")
-        rta_Chill_out = controller.encontrar_generos_musicales(analyzer,genero_3)
+        rta_Chill_out = controller.encontrar_generos_musicales(analyzer,genero_3,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Chill_out)
 
         genero_4 = "Hip_hop"
         print("Hip_hop:")
-        rta_Hip_hop = controller.encontrar_generos_musicales(analyzer,genero_4)
+        rta_Hip_hop = controller.encontrar_generos_musicales(analyzer,genero_4,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Hip_hop)
 
         genero_5 = "Jazz_and_funk"
         print("Jazz_and_funk:")
-        rta_Jazz_and_funk = controller.encontrar_generos_musicales(analyzer,genero_5)
+        rta_Jazz_and_funk = controller.encontrar_generos_musicales(analyzer,genero_5,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Jazz_and_funk)
 
         genero_6 = "Pop"
         print("Pop:")
-        rta_Pop = controller.encontrar_generos_musicales(analyzer,genero_6)
+        rta_Pop = controller.encontrar_generos_musicales(analyzer,genero_6,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Pop)
 
         genero_7 = "R&B"
         print("R&B:")
-        rta_R_B = controller.encontrar_generos_musicales(analyzer,genero_7)
+        rta_R_B = controller.encontrar_generos_musicales(analyzer,genero_7,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_R_B)
 
         genero_8 = "Rock"
         print("Rock:")
-        rta_Rock = controller.encontrar_generos_musicales(analyzer,genero_8)
+        rta_Rock = controller.encontrar_generos_musicales(analyzer,genero_8,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Rock)
 
         genero_9 = "Metal"
         print("Metal:")
-        rta_Metal = controller.encontrar_generos_musicales(analyzer,genero_9)
+        rta_Metal = controller.encontrar_generos_musicales(analyzer,genero_9,booleano,nombre,valor_minimo,valor_maximo)
         print(rta_Metal)
 
     elif int(inputs[0]) == 7:

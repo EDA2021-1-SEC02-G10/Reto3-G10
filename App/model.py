@@ -56,6 +56,7 @@ def newAnalyzer():
                                         maptype='PROBING',
                                         loadfactor=0.5,
                                         comparefunction=compareDates)
+    analyzer["genreHash"] = m.newMap()
     
     return analyzer
 
@@ -81,6 +82,7 @@ def actualizar_Caracteristica(analyzer):
                                       comparefunction=compareCaracteristicas)
     Arbol9 = om.newMap(omaptype='RBT',
                                       comparefunction=compareCaracteristicas)
+    
 
     m.put(analyzer["Caracteristica"], "instrumentalness", Arbol1)
     m.put(analyzer["Caracteristica"], "liveness", Arbol2)
@@ -95,15 +97,15 @@ def actualizar_Caracteristica(analyzer):
 def AppCaracteristica(analyzer, cancion):
 
     tabla = analyzer["Caracteristica"]
-    instrumentalness = cancion["instrumentalness"]
-    liveness = cancion["liveness"]
-    speechiness = cancion["speechiness"]
-    danceability = cancion["danceability"]
-    valence = cancion["valence"]
-    loudness = cancion["loudness"]
-    tempo = cancion["tempo"]
-    acousticness = cancion["acousticness"]
-    energy = cancion["energy"]
+    instrumentalness = float(cancion["instrumentalness"])
+    liveness = float(cancion["liveness"])
+    speechiness = float(cancion["speechiness"])
+    danceability = float(cancion["danceability"])
+    valence = float(cancion["valence"])
+    loudness = float(cancion["loudness"])
+    tempo = float(cancion["tempo"])
+    acousticness = float(cancion["acousticness"])
+    energy = float(cancion["energy"])
 
     #arbol1
     Entry1 = m.get(tabla, "instrumentalness")
@@ -117,8 +119,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol1, instrumentalness, Lista)
+        om.put(Arbol1, instrumentalness, Lista)
 
     #arbol2
     Entry2 = m.get(tabla, "liveness")
@@ -132,8 +133,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol2, liveness, Lista)
+        om.put(Arbol2, liveness, Lista)
 
     #arbol3
     Entry3 = m.get(tabla, "speechiness")
@@ -147,8 +147,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol3, speechiness, Lista)
+        om.put(Arbol3, speechiness, Lista)
 
     #arbol4
     Entry4 = m.get(tabla, "danceability")
@@ -162,8 +161,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol4, danceability, Lista)
+        om.put(Arbol4, danceability, Lista)
 
     #arbol5
     Entry5 = m.get(tabla, "valence")
@@ -177,8 +175,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol5, valence, Lista)
+        om.put(Arbol5, valence, Lista)
 
     #arbol6
     Entry6 = m.get(tabla, "loudness")
@@ -192,8 +189,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol6, loudness, Lista)
+        om.put(Arbol6, loudness, Lista)
 
     #arbol7
     Entry7 = m.get(tabla, "tempo")
@@ -207,8 +203,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol7, tempo, Lista)
+        om.put(Arbol7, tempo, Lista)
 
     #arbol8
     Entry8 = m.get(tabla, "acousticness")
@@ -222,8 +217,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol8, acousticness, Lista)
+        om.put(Arbol8, acousticness, Lista)
 
     #arbol9
     Entry9 = m.get(tabla, "energy")
@@ -237,8 +231,7 @@ def AppCaracteristica(analyzer, cancion):
     else:
         Lista = lt.newList()
         lt.addLast(Lista, cancion)
-
-    om.put(Arbol9, energy, Lista)
+        om.put(Arbol9, energy, Lista)
 
 #req 1
 
@@ -285,7 +278,7 @@ def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,m
         while it.hasNext(iterador_1) and it.hasNext(iterador_2):
             elemento_energy_1 = it.next(iterador_1)
             elemento_danceability_1 = it.next(iterador_2)
-            if m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and elemento_energy_1[variable_2] > minimo_dance and elemento_energy_1[variable_2] < maximo_dance and elemento_danceability_1[variable] > minimo_energy and elemento_danceability_1[variable] < maximo_energy:
+            if m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and float(elemento_energy_1[variable_2]) > minimo_dance and float(elemento_energy_1[variable_2]) < maximo_dance and float(elemento_danceability_1[variable]) > minimo_energy and float(elemento_danceability_1[variable]) < maximo_energy:
                 m.put(tabla_de_hash, elemento_energy_1["track_id"], elemento_energy_1)
                 m.put(tabla_de_hash,elemento_danceability_1["track_id"], elemento_danceability_1)
                 i += 1
@@ -300,8 +293,8 @@ def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,m
     return (i,lista_final)
 
 # req 4
-def encontrar_generos_musicales(analyzer,genero):
-    tabla_de_hash = m.newMap()
+def crearHastGenre(analyzer):
+    tabla_de_hash = analyzer["genreHash"]
     m.put(tabla_de_hash,"Reggae",(60,90))
     m.put(tabla_de_hash,"Down_tempo",(70,100))
     m.put(tabla_de_hash,"Chill_out",(90,120))
@@ -311,15 +304,23 @@ def encontrar_generos_musicales(analyzer,genero):
     m.put(tabla_de_hash,"R&B",(60,80))
     m.put(tabla_de_hash,"Rock",(110,140))
     m.put(tabla_de_hash,"Metal",(100,160))
+    return 
 
+def nuevo_genero(analizer,minValue,nombre,maxValue):
+    m.put(analizer["genreHash"],nombre,(minValue,maxValue))
+
+def findTuple(analyzer,genero):
+    tuplx = me.getValue(m.get(analyzer["genreHash"],genero))
+    return tuplx
+
+def encontrar_generos_musicales(analyzer,genero,option,nombre,minValue,maxValue):
+    if option == 1:
+        nuevo_genero(analyzer,minValue,nombre,maxValue)
+        intervalo = findTuple(analyzer,genero)
     caracteristica = m.get(analyzer["Caracteristica"], "tempo")
     arbol = me.getValue(caracteristica)
-
-    pareja = m.get(tabla_de_hash,genero)
-    intervalo = me.getValue(pareja)
-
+    intervalo = findTuple(analyzer,genero)
     rango = om.values(arbol,intervalo[0],intervalo[1])
-
     i = 0
     eventos = 0
     iterador = it.newIterator(rango)
@@ -339,12 +340,10 @@ def encontrar_generos_musicales(analyzer,genero):
     iterador_3 = it.newIterator(lista)
     j = 0
     lista_final = lt.newList()
-    while lt.hasNext(iterador_3):
+    while it.hasNext(iterador_3) and j<=10:
         elemento_2 = it.next(iterador_3)
-        iterador_4 = it.newIterator(elemento_2)
-        while lt.hasNext(iterador_4) and j <= 10:
-            elemento_3 = it.next(iterador_4)
-            lt.addLast(lista_final,elemento_3)
+        lt.addLast(lista_final,elemento_2)
+        j += 1
     return (eventos,i,lista_final)
 
 # Funciones de Comparacion
