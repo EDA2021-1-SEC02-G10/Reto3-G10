@@ -264,33 +264,91 @@ def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     lt.addLast(rta, artistas)
     return rta
     
-#req 2
-def encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance):
-    energy = m.get(analyzer["Caracteristica"], "energy")
-    danceability = m.get(analyzer["Caracteristica"], "danceability")
-    rango_energy = om.values(energy, minimo_energy, maximo_energy)
-    rango_danceability = om.values(danceability, minimo_dance, maximo_dance)
+#req 2 y req 3
+
+def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
+    energy = m.get(analyzer["Caracteristica"], variable)
+    danceability = m.get(analyzer["Caracteristica"], variable_2)
+    arbol_energy = me.getValue(energy)
+    arbol_danceability = me.getValue(danceability)
+    rango_energy = om.values(arbol_energy,minimo_energy,maximo_energy)    
+    rango_danceability = om.values(arbol_danceability,minimo_dance,maximo_dance)
     iterador_energy = it.newIterator(rango_energy)
-    interador_danceability = it.newIterator(rango_energy)
-    tabla_de_hash = 
-    numero_pistas = 0
+    iterador_danceability = it.newIterator(rango_danceability)
+    tabla_de_hash= m.newMap()
+    i = 0
     while it.hasNext(iterador_energy) and it.hasNext(iterador_danceability):
         elemento_energy = it.next(iterador_energy)
-        elemento_iterador_energy = it.next(iterador_iterador_energy)
-        iterador_energy_1 = it.newIterator(elemento_energy)
-        iterador_energy_2 = it.newIterator(elemento_energy)
-        while it.hasNext(iterador_energy_1) and it.hasNext(iterador_danceability_2): #preguntar cupi
-            elemento_energy_1 = it.next(iterador_energy_1)
-            elemento_iterador_energy_2 = it.next(iterador_iterador_energy_2)
-            m.put(tabla_de_hash, elemento_energy_1["reack_id"], 1)
-            m.put(tabla_de_hash, elemento_iterador_energy_2["track_id"], 1)
-            
+        elemento_danceability = it.next(iterador_danceability)
+        iterador_1 = it.newIterator(elemento_energy)
+        iterador_2 = it.newIterator(elemento_danceability)
+        while it.hasNext(iterador_1) and it.hasNext(iterador_2):
+            elemento_energy_1 = it.next(iterador_1)
+            elemento_danceability_1 = it.next(iterador_2)
+            if m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and elemento_energy_1[variable_2] > minimo_dance and elemento_energy_1[variable_2] < maximo_dance and elemento_danceability_1[variable] > minimo_energy and elemento_danceability_1[variable] < maximo_energy:
+                m.put(tabla_de_hash, elemento_energy_1["track_id"], elemento_energy_1)
+                m.put(tabla_de_hash,elemento_danceability_1["track_id"], elemento_danceability_1)
+                i += 1
+    lista = m.valueSet(tabla_de_hash)
+    iterador_3 = it.newIterator(lista)
+    j = 1
+    lista_final = lt.newList()
+    while it.hasNext(iterador_3) and j <= 5:
+        element = it.next(iterador_3)
+        lt.addLast(lista_final,element)
+        j+=1
+    return (i,lista_final)
 
+# req 4
+def encontrar_generos_musicales(analyzer,genero):
+    tabla_de_hash = m.newMap()
+    m.put(tabla_de_hash,"Reggae",(60,90))
+    m.put(tabla_de_hash,"Down_tempo",(70,100))
+    m.put(tabla_de_hash,"Chill_out",(90,120))
+    m.put(tabla_de_hash,"Hip_hop",(85,115))
+    m.put(tabla_de_hash,"Jazz_and_funk",(120,125))
+    m.put(tabla_de_hash,"Pop",(100,130))
+    m.put(tabla_de_hash,"R&B",(60,80))
+    m.put(tabla_de_hash,"Rock",(110,140))
+    m.put(tabla_de_hash,"Metal",(100,160))
 
-# ==============================
+    caracteristica = m.get(analyzer["Caracteristica"], "tempo")
+    arbol = me.getValue(caracteristica)
+
+    pareja = m.get(tabla_de_hash,genero)
+    intervalo = me.getValue(pareja)
+
+    rango = om.values(arbol,intervalo[0],intervalo[1])
+
+    i = 0
+    eventos = 0
+    iterador = it.newIterator(rango)
+    tabla_de_hash = m.newMap()
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        tamanio = lt.size(elemento)
+        eventos += tamanio
+        iterador_1 = it.newIterator(elemento)
+        while it.hasNext(iterador_1):
+            elemento_1 = it.next(iterador_1)
+            if not m.contains(tabla_de_hash, elemento_1["artist_id"]):
+                m.put(tabla_de_hash,elemento_1["artist_id"],elemento_1)
+                i += 1
+    
+    lista = m.valueSet(tabla_de_hash)
+    iterador_3 = it.newIterator(lista)
+    j = 0
+    lista_final = lt.newList()
+    while lt.hasNext(iterador_3):
+        elemento_2 = it.next(iterador_3)
+        iterador_4 = it.newIterator(elemento_2)
+        while lt.hasNext(iterador_4) and j <= 10:
+            elemento_3 = it.next(iterador_4)
+            lt.addLast(lista_final,elemento_3)
+    return (eventos,i,lista_final)
+
 # Funciones de Comparacion
 # ==============================
-
 def compareIds(id1, id2):
     """
     Compara dos crimenes
@@ -315,7 +373,6 @@ def compareDates(date1, date2):
         return -1
 
 def compareCaracteristicas(date1:float, date2:float):
-    
     if (date1 == date2):
         return 0
     elif (date1 > date2):

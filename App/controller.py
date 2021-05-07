@@ -69,9 +69,16 @@ def loadData(analyzer, music):
 
 # Funciones de ordenamiento
 
+#req 1
 def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     return model.clasificar_caracteristicas (analyzer, caracteristica, minimo, maximo)
 
-def encontrar_festejar(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance):
+#req 2 y req 3
+def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
+    return model.encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
+
+#req 4
+def encontrar_generos_musicales(analyzer,genero):
+    return model.encontrar_generos_musicales(analyzer,genero)
 
 # Funciones de consulta sobre el catálogo
