@@ -251,19 +251,17 @@ def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
             elemento1 = it.next(iterador1)
             if not m.contains(tabla_de_hash, elemento1["artist_id"]):
                 m.put(tabla_de_hash, elemento1["artist_id"], 1)
-    rta = lt.newList()
-    artistas = m.size(tabla_de_hash)
-    lt.addLast(rta, total_de_eventos)
-    lt.addLast(rta, artistas)
-    return rta
     
-#req 2 y req 3
+    artistas = m.size(tabla_de_hash)
+    return "Total de reproducciones:", artistas, "Total de eventos:", total_de_eventos
+    
+#req 2 
 
-def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
+def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
     energy = m.get(analyzer["Caracteristica"], variable)
     danceability = m.get(analyzer["Caracteristica"], variable_2)
     arbol_energy = me.getValue(energy)
-    arbol_danceability = me.getValue(danceability)
+    arbol_danceability = me.getValue(danceability)    
     rango_energy = om.values(arbol_energy,minimo_energy,maximo_energy)    
     rango_danceability = om.values(arbol_danceability,minimo_dance,maximo_dance)
     iterador_energy = it.newIterator(rango_energy)
@@ -286,12 +284,48 @@ def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,m
     iterador_3 = it.newIterator(lista)
     j = 1
     lista_final = lt.newList()
-    while it.hasNext(iterador_3) and j <= 5:
-        element = it.next(iterador_3)
-        lt.addLast(lista_final,element)
+    while  j <= 5:
+        elemento = it.next(iterador_3)
+        dato = "El Track ID es", elemento["track_id"], "con un Energy de ", elemento["energy"], "y un Danceability de ", elemento["danceability"]
+        lt.addLast(lista_final,dato)
         j+=1
-    return (i,lista_final)
+    return ("Número unico de Track:", i, "Cinco pistas en orden aleatorio:", lista_final)
 
+# req 3
+
+def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instrumentalness,minimo_tempo,maximo_tempo,variable,variable_2):
+    instrumentalness = m.get(analyzer["Caracteristica"], variable)
+    tempo = m.get(analyzer["Caracteristica"], variable_2)
+    arbol_instrumentalness = me.getValue(instrumentalness)
+    arbol_tempo = me.getValue(tempo)  
+    rango_instrumentalness = om.values(arbol_instrumentalness,minimo_instrumentalness,maximo_instrumentalness)    
+    rango_tempo = om.values(arbol_tempo,minimo_tempo,maximo_tempo)
+    iterador_instrumentalness = it.newIterator(rango_instrumentalness)
+    iterador_tempo = it.newIterator(rango_tempo)
+    tabla_de_hash= m.newMap()
+    i = 0
+    while it.hasNext(iterador_instrumentalness) and it.hasNext(iterador_tempo):
+        elemento_instrumentalness = it.next(iterador_instrumentalness)
+        elemento_tempo = it.next(iterador_tempo)
+        iterador_1 = it.newIterator(elemento_instrumentalness)
+        iterador_2 = it.newIterator(elemento_tempo)
+        while it.hasNext(iterador_1) and it.hasNext(iterador_2):
+            elemento_instrumentalness_1 = it.next(iterador_1)
+            elemento_tempo_1 = it.next(iterador_2)
+            if m.contains(tabla_de_hash, elemento_instrumentalness_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False and float(elemento_instrumentalness_1[variable_2]) > minimo_tempo and float(elemento_instrumentalness_1[variable_2]) < maximo_tempo and float(elemento_tempo_1[variable]) > minimo_instrumentalness and float(elemento_tempo_1[variable]) < maximo_instrumentalness:
+                m.put(tabla_de_hash, elemento_instrumentalness_1["track_id"], elemento_instrumentalness_1)
+                m.put(tabla_de_hash,elemento_tempo_1["track_id"], elemento_tempo_1)
+                i += 1
+    lista = m.valueSet(tabla_de_hash)
+    iterador_3 = it.newIterator(lista)
+    j = 1
+    lista_final = lt.newList()
+    while  j <= 5:
+        elemento = it.next(iterador_3)
+        dato = "El Track ID es", elemento["track_id"], "con un instrumentalness de ", elemento["instrumentalness"], "y un Tempo de ", elemento["tempo"]
+        lt.addLast(lista_final,dato)
+        j+=1
+    return ("Número unico de Track:", i, "Cinco pistas en orden aleatorio:", lista_final)
 # req 4
 def crearHastGenre(analyzer):
     tabla_de_hash = analyzer["genreHash"]
@@ -344,7 +378,7 @@ def encontrar_generos_musicales(analyzer,genero,option,nombre,minValue,maxValue)
         elemento_2 = it.next(iterador_3)
         lt.addLast(lista_final,elemento_2)
         j += 1
-    return (eventos,i,lista_final)
+    return ("Número de eventos: ", eventos,"Número de Artistas : ", i, "Artistas unicos: ", lista_final)
 
 # Funciones de Comparacion
 # ==============================

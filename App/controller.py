@@ -74,9 +74,13 @@ def loadData(analyzer, music):
 def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
     return model.clasificar_caracteristicas (analyzer, caracteristica, minimo, maximo)
 
-#req 2 y req 3
-def encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
-    return model.encontrar_pistas_unicas(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
+#req 2 
+def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
+    return model.encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
+
+#req 3
+def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instrumentalness,minimo_tempo,maximo_tempo,variable,variable_2):
+    return model.encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instrumentalness,minimo_tempo,maximo_tempo,variable,variable_2)
 
 #req 4
 def encontrar_generos_musicales(analyzer,genero,booleano,nombre,valor_minimo,valor_maximo):
