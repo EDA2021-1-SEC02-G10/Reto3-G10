@@ -68,15 +68,15 @@ while True:
         maximo = float(input("Cúal es el valor mínimo de la caracteristica de contenido?"))
         rta = controller.clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo)
         print("")
-        print(rta[0], rta[1])
         print(rta[2], rta[3])
+        print(rta[0], rta[1])
         print("")
 
     elif int(inputs[0]) == 4:
         minimo_energy = float(input("Qué valor minimo quiere de la caractersitica energy?"))
         maximo_energy = float(input("Qué valor maximo quiere de la caracteristica energy?"))
-        minimo_dance = float(input("Qué valor minimo quiere de la caractersitica danceability?"))
-        maximo_dance = float(input("Qué valor maximo quiere de la caractersitica danceability?"))
+        minimo_dance = float(input("Qué valor minimo quiere de la caracteristica danceability?"))
+        maximo_dance = float(input("Qué valor maximo quiere de la caracteristica danceability?"))
         variable = "energy"
         variable_2 = "danceability"
         rta = controller.encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
@@ -89,8 +89,8 @@ while True:
     elif int(inputs[0]) == 5:
         minimo_instrumental = float(input("Qué valor minimo quiere de la caractersitica instrumentalness?"))
         maximo_instrumental = float(input("Qué valor maximo quiere de la caractersitica instrumentalness?"))
-        minimo_tempo = float(input("Qué valor minimo quiere de la caractersitica tempo?"))
-        maximo_tempo = float(input("Qué valor maximo quiere de la caractersitica tempo?"))
+        minimo_tempo = float(input("Qué valor minimo quiere de la caracteristica tempo?"))
+        maximo_tempo = float(input("Qué valor maximo quiere de la caracteristica tempo?"))
         variable = "instrumentalness"
         variable_2 = "tempo"
         rta = controller.encontrar_pistas_unicas_req_3(analyzer,minimo_instrumental, maximo_instrumental,minimo_tempo,maximo_tempo,variable,variable_2)
@@ -99,6 +99,7 @@ while True:
         print(rta[2])
         print(rta[3])
         print("")
+        
     elif int(inputs[0]) == 6:
         booleano = 1
         if booleano == 1 :
@@ -185,6 +186,8 @@ while True:
     elif int(inputs[0]) == 7:
         minimo_dia = input("Qué valor minimo quiere de la hora de dia?")
         maximo_dia = input("Qué valor maximo quiere de la hora de dia?")
+        rta = controller.genero_mas_escuchado(analyzer, minimo_dia, maximo_dia)
+        print(rta)
 
     else:
         sys.exit(0)
