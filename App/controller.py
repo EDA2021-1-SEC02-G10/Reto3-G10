@@ -60,10 +60,10 @@ def loadData(analyzer, music):
                                 delimiter=",")
     for cancion in input_file1:
         model.AppCaracteristica(analyzer, cancion)
-    """for cancion in input_file2:
-        #model.AppCaracteristica(analyzer, cancion)
-    for cancion in input_file3:
-        #model.AppCaracteristica(analyzer, cancion)"""
+    for fecha in input_file2:
+        model.Appfechas(analyzer, fecha)
+    for vader in input_file3:
+        model.AppVader(analyzer, vader)
         
     return analyzer
 
@@ -85,5 +85,9 @@ def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instr
 #req 4
 def encontrar_generos_musicales(analyzer,genero,booleano,nombre,valor_minimo,valor_maximo):
     return model.encontrar_generos_musicales(analyzer,genero,booleano,nombre,valor_minimo,valor_maximo)
+
+#req 5 
+def genero_mas_escuchado(analyzer, minimo_dia, maximo_dia):
+    return model.genero_mas_escuchado(analyzer, minimo_dia, maximo_dia)
 
 # Funciones de consulta sobre el catálogo
