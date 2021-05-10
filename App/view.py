@@ -77,9 +77,7 @@ while True:
         maximo_energy = float(input("Qué valor maximo quiere de la caracteristica energy?"))
         minimo_dance = float(input("Qué valor minimo quiere de la caracteristica danceability?"))
         maximo_dance = float(input("Qué valor maximo quiere de la caracteristica danceability?"))
-        variable = "energy"
-        variable_2 = "danceability"
-        rta = controller.encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2)
+        rta = controller.encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance)
         print("")
         print(rta[0], rta[1])
         print(rta[2])
@@ -91,14 +89,8 @@ while True:
         maximo_instrumental = float(input("Qué valor maximo quiere de la caractersitica instrumentalness?"))
         minimo_tempo = float(input("Qué valor minimo quiere de la caracteristica tempo?"))
         maximo_tempo = float(input("Qué valor maximo quiere de la caracteristica tempo?"))
-        variable = "instrumentalness"
-        variable_2 = "tempo"
-        rta = controller.encontrar_pistas_unicas_req_3(analyzer,minimo_instrumental, maximo_instrumental,minimo_tempo,maximo_tempo,variable,variable_2)
-        print("")
-        print(rta[0], rta[1])
-        print(rta[2])
-        print(rta[3])
-        print("")
+        rta = controller.encontrar_pistas_unicas_req_3(analyzer,minimo_instrumental, maximo_instrumental,minimo_tempo,maximo_tempo)
+        print(rta)
         
     elif int(inputs[0]) == 6:
         booleano = 1
