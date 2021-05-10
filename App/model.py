@@ -57,6 +57,9 @@ def newAnalyzer():
                                         loadfactor=0.5,
                                         comparefunction=compareDates)
     analyzer["genreHash"] = m.newMap()
+
+    analyzer["Fechas"] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareHour)
     
     return analyzer
 
@@ -253,35 +256,40 @@ def clasificar_caracteristicas(analyzer, caracteristica, minimo, maximo):
                 m.put(tabla_de_hash, elemento1["artist_id"], 1)
     
     artistas = m.size(tabla_de_hash)
-    return "Total de reproducciones:", artistas, "Total de eventos:", total_de_eventos
+    return "Total de autores:", artistas, "Total de reproducciones:", total_de_eventos
     
 #req 2 
 
 def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_dance,maximo_dance,variable,variable_2):
     energy = m.get(analyzer["Caracteristica"], variable)
     danceability = m.get(analyzer["Caracteristica"], variable_2)
+
     arbol_energy = me.getValue(energy)
     arbol_danceability = me.getValue(danceability)    
     rango_energy = om.values(arbol_energy,minimo_energy,maximo_energy)    
     rango_danceability = om.values(arbol_danceability,minimo_dance,maximo_dance)
+
     iterador_energy = it.newIterator(rango_energy)
     iterador_danceability = it.newIterator(rango_danceability)
+
     tabla_de_hash= m.newMap()
-    i = 0
-    while it.hasNext(iterador_energy) and it.hasNext(iterador_danceability):
+    N_track = 0
+    while it.hasNext(iterador_energy) or it.hasNext(iterador_danceability):
         elemento_energy = it.next(iterador_energy)
         elemento_danceability = it.next(iterador_danceability)
+
         iterador_1 = it.newIterator(elemento_energy)
         iterador_2 = it.newIterator(elemento_danceability)
+        
         while it.hasNext(iterador_1) and it.hasNext(iterador_2):
             elemento_energy_1 = it.next(iterador_1)
             elemento_danceability_1 = it.next(iterador_2)
             if m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and float(elemento_energy_1[variable_2]) > minimo_dance and float(elemento_energy_1[variable_2]) < maximo_dance and float(elemento_danceability_1[variable]) > minimo_energy and float(elemento_danceability_1[variable]) < maximo_energy:
+                m.put(tabla_de_hash,elemento_danceability_1["track_id"], elemento_danceability_1) 
                 m.put(tabla_de_hash, elemento_energy_1["track_id"], elemento_energy_1)
-                m.put(tabla_de_hash,elemento_danceability_1["track_id"], elemento_danceability_1)
-                i += 1
+                N_track += 1
     lista = m.valueSet(tabla_de_hash)
-    iterador_3 = it.newIterator(lista)
+    iterador_3 = it.newIterator(lista)  
     j = 1
     lista_final = lt.newList()
     while  j <= 5:
@@ -289,43 +297,49 @@ def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_d
         dato = "El Track ID es", elemento["track_id"], "con un Energy de ", elemento["energy"], "y un Danceability de ", elemento["danceability"]
         lt.addLast(lista_final,dato)
         j+=1
-    return ("Número unico de Track:", i, "Cinco pistas en orden aleatorio:", lista_final)
+    return ("Número unico de Track:", N_track, "Cinco pistas en orden aleatorio:", lista_final)
 
 # req 3
 
 def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instrumentalness,minimo_tempo,maximo_tempo,variable,variable_2):
     instrumentalness = m.get(analyzer["Caracteristica"], variable)
     tempo = m.get(analyzer["Caracteristica"], variable_2)
-    arbol_instrumentalness = me.getValue(instrumentalness)
-    arbol_tempo = me.getValue(tempo)  
+
+    arbol_instrumentalness = me.getValue(instrumentalness)  
+    arbol_tempo = me.getValue(tempo)             
     rango_instrumentalness = om.values(arbol_instrumentalness,minimo_instrumentalness,maximo_instrumentalness)    
     rango_tempo = om.values(arbol_tempo,minimo_tempo,maximo_tempo)
+
     iterador_instrumentalness = it.newIterator(rango_instrumentalness)
     iterador_tempo = it.newIterator(rango_tempo)
+
     tabla_de_hash= m.newMap()
-    i = 0
-    while it.hasNext(iterador_instrumentalness) and it.hasNext(iterador_tempo):
+    N_track = 0
+    while it.hasNext(iterador_instrumentalness) or it.hasNext(iterador_tempo):
         elemento_instrumentalness = it.next(iterador_instrumentalness)
         elemento_tempo = it.next(iterador_tempo)
+
         iterador_1 = it.newIterator(elemento_instrumentalness)
         iterador_2 = it.newIterator(elemento_tempo)
+        
         while it.hasNext(iterador_1) and it.hasNext(iterador_2):
             elemento_instrumentalness_1 = it.next(iterador_1)
-            elemento_tempo_1 = it.next(iterador_2)
-            if m.contains(tabla_de_hash, elemento_instrumentalness_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False and float(elemento_instrumentalness_1[variable_2]) > minimo_tempo and float(elemento_instrumentalness_1[variable_2]) < maximo_tempo and float(elemento_tempo_1[variable]) > minimo_instrumentalness and float(elemento_tempo_1[variable]) < maximo_instrumentalness:
+            elemento_tempoy_1 = it.next(iterador_2)
+            if m.contains(tabla_de_hash, elemento_instrumentalness_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False and float(elemento_instrumentalness_1[variable_2]) > minimo_tempo and float(elemento_energy_1[variable_2]) < maximo_tempo and float(elemento_tempo_1[variable]) > minimo_instrumentalness and float(elemento_tempo_1[variable]) < maximo_instrumentalness:
+                m.put(tabla_de_hash,elemento_tempo_1["track_id"], elemento_tempo_1) 
                 m.put(tabla_de_hash, elemento_instrumentalness_1["track_id"], elemento_instrumentalness_1)
-                m.put(tabla_de_hash,elemento_tempo_1["track_id"], elemento_tempo_1)
-                i += 1
+                N_track += 1
     lista = m.valueSet(tabla_de_hash)
-    iterador_3 = it.newIterator(lista)
+    iterador_3 = it.newIterator(lista)  
     j = 1
     lista_final = lt.newList()
     while  j <= 5:
         elemento = it.next(iterador_3)
-        dato = "El Track ID es", elemento["track_id"], "con un instrumentalness de ", elemento["instrumentalness"], "y un Tempo de ", elemento["tempo"]
+        dato = "El Track ID es", elemento["track_id"], "con un Instrumentalness de ", elemento["instrumentalness"], "y un Tempo de ", elemento["Tempo"]
         lt.addLast(lista_final,dato)
         j+=1
-    return ("Número unico de Track:", i, "Cinco pistas en orden aleatorio:", lista_final)
+    return ("Número unico de Track:", N_track, "Cinco pistas en orden aleatorio:", lista_final)
+    
 # req 4
 def crearHastGenre(analyzer):
     tabla_de_hash = analyzer["genreHash"]
@@ -380,6 +394,29 @@ def encontrar_generos_musicales(analyzer,genero,option,nombre,minValue,maxValue)
         j += 1
     return ("Número de eventos: ", eventos,"Número de Artistas : ", i, "Artistas unicos: ", lista_final)
 
+# req 5
+def Appfechas (analyzer, fecha):
+    key = fecha["created_at"]
+    key = datetime.datetime.strptime(key, '%Y-%m-%d %H:%M:%S')
+    key = key.time()
+    Arbol  = analyzer["Fechas"]
+    verificador = om.contains(Arbol, key)
+    
+    if verificador:
+        Entry = om.get(Arbol, key)
+        Lista = me.getValue(Entry)
+    else: 
+        Lista = lt.newList()
+    lt.addLast(Lista, fecha)
+    om.put(Arbol, key, Lista)
+    
+    
+def genero_mas_escuchado(analyzer, minimo_dia, maximo_dia):
+    arbol = me.getValue(analyzer["Fechas"])
+    rango = om.values(arbol, minimo, maximo)
+    
+    return analyzer["Fechas"]
+
 # Funciones de Comparacion
 # ==============================
 def compareIds(id1, id2):
@@ -390,6 +427,14 @@ def compareIds(id1, id2):
         return 0
     elif id1 > id2:
         return 1
+    else:
+        return -1
+
+def compareHour (hour1,hour2):
+    if (hour1.hour == hour2.hour) and (hour1.minute == hour2.minute):
+        return 0
+    elif (hour1.hour > hour2.hour):
+        return 1 
     else:
         return -1
 

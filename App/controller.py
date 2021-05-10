@@ -62,8 +62,8 @@ def loadData(analyzer, music):
         model.AppCaracteristica(analyzer, cancion)
     for fecha in input_file2:
         model.Appfechas(analyzer, fecha)
-    for vader in input_file3:
-        model.AppVader(analyzer, vader)
+    """for vader in input_file3:
+        model.AppVader(analyzer, vader)"""
         
     return analyzer
 
