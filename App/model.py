@@ -284,7 +284,7 @@ def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_d
         while it.hasNext(iterador_1) and it.hasNext(iterador_2):
             elemento_energy_1 = it.next(iterador_1)
             elemento_danceability_1 = it.next(iterador_2)
-            if m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and float(elemento_energy_1["danceability"]) > minimo_dance and float(elemento_energy_1["danceability"]) < maximo_dance and float(elemento_danceability_1["energy"]) > minimo_energy and float(elemento_danceability_1["energy"]) < maximo_energy:
+            if (m.contains(tabla_de_hash, elemento_energy_1["track_id"]) == False) and (m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False) and m.contains(tabla_de_hash, elemento_danceability_1["track_id"]) == False and float(elemento_energy_1["danceability"]) > minimo_dance and float(elemento_energy_1["danceability"]) < maximo_dance and float(elemento_danceability_1["energy"]) > minimo_energy and float(elemento_danceability_1["energy"]) < maximo_energy:
                 m.put(tabla_de_hash,elemento_danceability_1["track_id"], elemento_danceability_1) 
                 m.put(tabla_de_hash, elemento_energy_1["track_id"], elemento_energy_1)
                 N_track += 1
@@ -325,18 +325,19 @@ def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instr
         while it.hasNext(iterador_1) and it.hasNext(iterador_2):
             elemento_instrumentalness_1 = it.next(iterador_1)
             elemento_tempo_1 = it.next(iterador_2)
-            if m.contains(tabla_de_hash, elemento_instrumentalness_1["track_id"]) == False and m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False and float(elemento_instrumentalness_1["tempo"]) < maximo_tempo and float(elemento_instrumentalness_1["tempo"]) > minimo_tempo and float(elemento_tempo_1["instrumentalness"]) < maximo_instrumentalness and float(elemento_tempo_1["instrumentalness"]) > minimo_instrumentalness: #and float(elemento_instrumentalness_1["tempo"]) > minimo_tempo and float(elemento_instrumentalness_1["tempo"]) < maximo_tempo and float(elemento_tempo_1["instrumentalness"]) > minimo_instrumentalness and float(elemento_tempo_1["instrumentalness"]) < maximo_instrumentalness:
+            if (m.contains(tabla_de_hash, elemento_instrumentalness_1["track_id"]) == False) and (m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False) and m.contains(tabla_de_hash, elemento_tempo_1["track_id"]) == False and float(elemento_instrumentalness_1["tempo"]) < maximo_tempo and float(elemento_instrumentalness_1["tempo"]) > minimo_tempo and float(elemento_tempo_1["instrumentalness"]) < maximo_instrumentalness and float(elemento_tempo_1["instrumentalness"]) > minimo_instrumentalness: #and float(elemento_instrumentalness_1["tempo"]) > minimo_tempo and float(elemento_instrumentalness_1["tempo"]) < maximo_tempo and float(elemento_tempo_1["instrumentalness"]) > minimo_instrumentalness and float(elemento_tempo_1["instrumentalness"]) < maximo_instrumentalness:
                 m.put(tabla_de_hash,elemento_tempo_1["track_id"], elemento_tempo_1) 
                 m.put(tabla_de_hash, elemento_instrumentalness_1["track_id"], elemento_instrumentalness_1)
                 N_track += 1
+
     lista = m.valueSet(tabla_de_hash)
     iterador_3 = it.newIterator(lista)
     j = 1
     lista_final = lt.newList()
-    while it.hasNext(iterador_3) and j <= 5:
+    while j <= 5:
         element = it.next(iterador_3)
         lt.addLast(lista_final,element)
-        j+=1
+        j += 1
     return (N_track,lista_final)
     
 # req 4
