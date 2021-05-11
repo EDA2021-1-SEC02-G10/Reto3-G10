@@ -60,6 +60,8 @@ def newAnalyzer():
 
     analyzer["Fechas"] = om.newMap(omaptype='RBT',
                                       comparefunction=compareHour)
+    analyzer["vader"] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareVader)
     
     return analyzer
 
@@ -272,6 +274,12 @@ def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_d
     iterador_energy = it.newIterator(rango_energy)
     iterador_danceability = it.newIterator(rango_danceability)
 
+    #tabla_de_hash = m.newMap(numelements=30,
+     #                                   prime=109345121,
+     #                                   maptype='PROBING',
+     #                                  loadfactor=0.5,
+     #                                   comparefunction=compareDates)
+
     tabla_de_hash= m.newMap()
     
     while it.hasNext(iterador_energy) or it.hasNext(iterador_danceability):
@@ -298,10 +306,10 @@ def encontrar_pistas_unicas_req_2(analyzer,minimo_energy, maximo_energy,minimo_d
         dato = "El Track ID es", elemento["track_id"], "con un Energy de ", elemento["energy"], "y un Danceability de ", elemento["danceability"]
         lt.addLast(lista_final,dato)
         j+=1
-    return ("Número unico de Track:", N_track, "Cinco pistas en orden aleatorio:", lista_final)
+    return "Número unico de Track:", N_track, "Cinco pistas en orden aleatorio:", lista_final
 
 # req 3
-"""
+
 def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instrumentalness,minimo_tempo,maximo_tempo):
     instrumentalness = m.get(analyzer["Caracteristica"], "instrumentalness")
     tempo = m.get(analyzer["Caracteristica"], "tempo")
@@ -339,8 +347,8 @@ def encontrar_pistas_unicas_req_3(analyzer,minimo_instrumentalness, maximo_instr
         element = it.next(iterador_3)
         lt.addLast(lista_final,element)
         j += 1
-    return (N_track,lista_final)
-"""
+    return "Número unico de Track:", N_track, "Cinco pistas en orden aleatorio:", lista_final
+
 # req 4
 def crearHastGenre(analyzer):
     tabla_de_hash = analyzer["genreHash"]
@@ -410,13 +418,94 @@ def Appfechas (analyzer, fecha):
         Lista = lt.newList()
     lt.addLast(Lista, fecha)
     om.put(Arbol, key, Lista)
+
+def AppVader(analyzer, vader):
+    key = vader["vader_avg"]
+    Arbol  = analyzer["vader"]
+    verificador = om.contains(Arbol, key)
+
+    if verificador:
+        Entry = om.get(Arbol, key)
+        Lista = me.getValue(Entry)
+    else: 
+        Lista = lt.newList()
+    lt.addLast(Lista, vader)
+    om.put(Arbol, key, Lista)
     
     
 def genero_mas_escuchado(analyzer, minimo_dia, maximo_dia):
-    arbol = me.getValue(analyzer["Fechas"])
-    rango = om.values(arbol, minimo, maximo)
+
+    minimo_dia = datetime.datetime.strptime(minimo_dia, "%H:%M:%S")
+    minimo_dia = minimo_dia.time()
+
+    maximo_dia = datetime.datetime.strptime(maximo_dia, '%H:%M:%S')
+    maximo_dia = maximo_dia.time()
     
-    return analyzer["Fechas"]
+
+    arbol = analyzer["Fechas"]
+    rango = om.values(arbol, minimo_dia, maximo_dia)
+    Total_eventos = lt.size(rango)
+    iterador = it.newIterator(rango)
+    tabla_de_hash = m.newMap()
+
+    reggae = 0
+    down_tempo = 0
+    chill_out = 0
+    hip_hop = 0
+    jazz_and_funk = 0
+    pop = 0
+    r_and_b = 0
+    rock = 0
+    metal = 0
+
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        tempo = int(elemento["tempo"])
+        if tempo > 60 and tempo < 90:
+            reggae += 1
+        if tempo > 70 and tempo < 100:
+            down_tempo += 1
+        if tempo > 90 and tempo < 120:
+            chill_out += 1
+        if tempo > 85 and tempo < 115:
+            hip_hop += 1
+        if tempo > 120 and tempo < 125:
+            jazz_and_funk += 1
+        if tempo > 100 and tempo < 130:
+            pop += 1
+        if tempo > 60 and tempo < 80:
+            r_and_b += 1
+        if tempo > 110 and tempo < 140:
+            rock += 1
+        if tempo > 100 and tempo < 160:
+            metal += 1
+        genero_mayor = 0
+        genero_mayor = max(reggae, down_tempo, chill_out, hip_hop, jazz_and_funk, pop, r_and_b, rock, metal)
+
+        if genero_mayor == reggae:
+            genero_mayor = "Reggae"
+        elif genero_mayor == down_tempo:
+            genero_mayor = "Down-tempo"
+        elif genero_mayor == chill_out:
+            genero_mayor = "Chill-out"
+        elif genero_mayor == hip_hop:
+            genero_mayor = "Hip-hop"
+        elif genero_mayor == jazz_and_funk:
+            genero_mayor = "Jazz and Funk"
+        elif genero_mayor == pop:
+            genero_mayor = "Pop"
+        elif genero_mayor == r_and_b:
+            genero_mayor = "R&B"
+        elif genero_mayor == rock:
+            genero_mayor = "Rock"
+        elif genero_mayor == metal:
+            genero_mayor = "Metal"
+
+
+    return minimo_dia, maximo_dia, Total_eventos
+    
+    
+    
 
 # Funciones de Comparacion
 # ==============================
@@ -432,6 +521,7 @@ def compareIds(id1, id2):
         return -1
 
 def compareHour (hour1,hour2):
+    
     if (hour1.hour == hour2.hour) and (hour1.minute == hour2.minute):
         return 0
     elif (hour1.hour > hour2.hour):
@@ -452,6 +542,14 @@ def compareDates(date1, date2):
         return -1
 
 def compareCaracteristicas(date1:float, date2:float):
+    if (date1 == date2):
+        return 0
+    elif (date1 > date2):
+        return 1
+    else:
+        return -1
+
+def compareVader(date1:float, date2:float):
     if (date1 == date2):
         return 0
     elif (date1 > date2):
